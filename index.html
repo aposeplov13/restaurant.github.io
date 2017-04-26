@@ -24,7 +24,7 @@
 	<!-- Header Bootstrap JS-->
 	<script>if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(t){"use strict";var e=t.fn.jquery.split(" ")[0].split(".");if(e[0]<2&&e[1]<9||1==e[0]&&9==e[1]&&e[2]<1||e[0]>3)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4")}(jQuery),+function(t){"use strict";function e(e){return this.each(function(){var s=t(this),n=s.data("bs.carousel"),o=t.extend({},i.DEFAULTS,s.data(),"object"==typeof e&&e),a="string"==typeof e?e:o.slide;n||s.data("bs.carousel",n=new i(this,o)),"number"==typeof e?n.to(e):a?n[a]():o.interval&&n.pause().cycle()})}var i=function(e,i){this.$element=t(e),this.$indicators=this.$element.find(".carousel-indicators"),this.options=i,this.paused=null,this.sliding=null,this.interval=null,this.$active=null,this.$items=null,this.options.keyboard&&this.$element.on("keydown.bs.carousel",t.proxy(this.keydown,this)),"hover"==this.options.pause&&!("ontouchstart"in document.documentElement)&&this.$element.on("mouseenter.bs.carousel",t.proxy(this.pause,this)).on("mouseleave.bs.carousel",t.proxy(this.cycle,this))};i.VERSION="3.3.7",i.TRANSITION_DURATION=600,i.DEFAULTS={interval:5e3,pause:"hover",wrap:!0,keyboard:!0},i.prototype.keydown=function(t){if(!/input|textarea/i.test(t.target.tagName)){switch(t.which){case 37:this.prev();break;case 39:this.next();break;default:return}t.preventDefault()}},i.prototype.cycle=function(e){return e||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(t.proxy(this.next,this),this.options.interval)),this},i.prototype.getItemIndex=function(t){return this.$items=t.parent().children(".item"),this.$items.index(t||this.$active)},i.prototype.getItemForDirection=function(t,e){var i=this.getItemIndex(e),s="prev"==t&&0===i||"next"==t&&i==this.$items.length-1;if(s&&!this.options.wrap)return e;var n="prev"==t?-1:1,o=(i+n)%this.$items.length;return this.$items.eq(o)},i.prototype.to=function(t){var e=this,i=this.getItemIndex(this.$active=this.$element.find(".item.active"));return t>this.$items.length-1||0>t?void 0:this.sliding?this.$element.one("slid.bs.carousel",function(){e.to(t)}):i==t?this.pause().cycle():this.slide(t>i?"next":"prev",this.$items.eq(t))},i.prototype.pause=function(e){return e||(this.paused=!0),this.$element.find(".next, .prev").length&&t.support.transition&&(this.$element.trigger(t.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},i.prototype.next=function(){return this.sliding?void 0:this.slide("next")},i.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},i.prototype.slide=function(e,s){var n=this.$element.find(".item.active"),o=s||this.getItemForDirection(e,n),a=this.interval,r="next"==e?"left":"right",l=this;if(o.hasClass("active"))return this.sliding=!1;var h=o[0],d=t.Event("slide.bs.carousel",{relatedTarget:h,direction:r});if(this.$element.trigger(d),!d.isDefaultPrevented()){if(this.sliding=!0,a&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var c=t(this.$indicators.children()[this.getItemIndex(o)]);c&&c.addClass("active")}var p=t.Event("slid.bs.carousel",{relatedTarget:h,direction:r});return t.support.transition&&this.$element.hasClass("slide")?(o.addClass(e),o[0].offsetWidth,n.addClass(r),o.addClass(r),n.one("bsTransitionEnd",function(){o.removeClass([e,r].join(" ")).addClass("active"),n.removeClass(["active",r].join(" ")),l.sliding=!1,setTimeout(function(){l.$element.trigger(p)},0)}).emulateTransitionEnd(i.TRANSITION_DURATION)):(n.removeClass("active"),o.addClass("active"),this.sliding=!1,this.$element.trigger(p)),a&&this.cycle(),this}};var s=t.fn.carousel;t.fn.carousel=e,t.fn.carousel.Constructor=i,t.fn.carousel.noConflict=function(){return t.fn.carousel=s,this};var n=function(i){var s,n=t(this),o=t(n.attr("data-target")||(s=n.attr("href"))&&s.replace(/.*(?=#[^\s]+$)/,""));if(o.hasClass("carousel")){var a=t.extend({},o.data(),n.data()),r=n.attr("data-slide-to");r&&(a.interval=!1),e.call(o,a),r&&o.data("bs.carousel").to(r),i.preventDefault()}};t(document).on("click.bs.carousel.data-api","[data-slide]",n).on("click.bs.carousel.data-api","[data-slide-to]",n),t(window).on("load",function(){t('[data-ride="carousel"]').each(function(){var i=t(this);e.call(i,i.data())})})}(jQuery),+function(t){"use strict";function e(e){return this.each(function(){var s=t(this),n=s.data("bs.affix"),o="object"==typeof e&&e;n||s.data("bs.affix",n=new i(this,o)),"string"==typeof e&&n[e]()})}var i=function(e,s){this.options=t.extend({},i.DEFAULTS,s),this.$target=t(this.options.target).on("scroll.bs.affix.data-api",t.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",t.proxy(this.checkPositionWithEventLoop,this)),this.$element=t(e),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};i.VERSION="3.3.7",i.RESET="affix affix-top affix-bottom",i.DEFAULTS={offset:0,target:window},i.prototype.getState=function(t,e,i,s){var n=this.$target.scrollTop(),o=this.$element.offset(),a=this.$target.height();if(null!=i&&"top"==this.affixed)return i>n?"top":!1;if("bottom"==this.affixed)return null!=i?n+this.unpin<=o.top?!1:"bottom":t-s>=n+a?!1:"bottom";var r=null==this.affixed,l=r?n:o.top,h=r?a:e;return null!=i&&i>=n?"top":null!=s&&l+h>=t-s?"bottom":!1},i.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(i.RESET).addClass("affix");var t=this.$target.scrollTop(),e=this.$element.offset();return this.pinnedOffset=e.top-t},i.prototype.checkPositionWithEventLoop=function(){setTimeout(t.proxy(this.checkPosition,this),1)},i.prototype.checkPosition=function(){if(this.$element.is(":visible")){var e=this.$element.height(),s=this.options.offset,n=s.top,o=s.bottom,a=Math.max(t(document).height(),t(document.body).height());"object"!=typeof s&&(o=n=s),"function"==typeof n&&(n=s.top(this.$element)),"function"==typeof o&&(o=s.bottom(this.$element));var r=this.getState(a,e,n,o);if(this.affixed!=r){null!=this.unpin&&this.$element.css("top","");var l="affix"+(r?"-"+r:""),h=t.Event(l+".bs.affix");if(this.$element.trigger(h),h.isDefaultPrevented())return;this.affixed=r,this.unpin="bottom"==r?this.getPinnedOffset():null,this.$element.removeClass(i.RESET).addClass(l).trigger(l.replace("affix","affixed")+".bs.affix")}"bottom"==r&&this.$element.offset({top:a-e-o})}};var s=t.fn.affix;t.fn.affix=e,t.fn.affix.Constructor=i,t.fn.affix.noConflict=function(){return t.fn.affix=s,this},t(window).on("load",function(){t('[data-spy="affix"]').each(function(){var i=t(this),s=i.data();s.offset=s.offset||{},null!=s.offsetBottom&&(s.offset.bottom=s.offsetBottom),null!=s.offsetTop&&(s.offset.top=s.offsetTop),e.call(i,s)})})}(jQuery),+function(t){"use strict";function e(e){var i,s=e.attr("data-target")||(i=e.attr("href"))&&i.replace(/.*(?=#[^\s]+$)/,"");return t(s)}function i(e){return this.each(function(){var i=t(this),n=i.data("bs.collapse"),o=t.extend({},s.DEFAULTS,i.data(),"object"==typeof e&&e);!n&&o.toggle&&/show|hide/.test(e)&&(o.toggle=!1),n||i.data("bs.collapse",n=new s(this,o)),"string"==typeof e&&n[e]()})}var s=function(e,i){this.$element=t(e),this.options=t.extend({},s.DEFAULTS,i),this.$trigger=t('[data-toggle="collapse"][href="#'+e.id+'"],[data-toggle="collapse"][data-target="#'+e.id+'"]'),this.transitioning=null,this.options.parent?this.$parent=this.getParent():this.addAriaAndCollapsedClass(this.$element,this.$trigger),this.options.toggle&&this.toggle()};s.VERSION="3.3.7",s.TRANSITION_DURATION=350,s.DEFAULTS={toggle:!0},s.prototype.dimension=function(){var t=this.$element.hasClass("width");return t?"width":"height"},s.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var e,n=this.$parent&&this.$parent.children(".panel").children(".in, .collapsing");if(!(n&&n.length&&(e=n.data("bs.collapse"),e&&e.transitioning))){var o=t.Event("show.bs.collapse");if(this.$element.trigger(o),!o.isDefaultPrevented()){n&&n.length&&(i.call(n,"hide"),e||n.data("bs.collapse",null));var a=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[a](0).attr("aria-expanded",!0),this.$trigger.removeClass("collapsed").attr("aria-expanded",!0),this.transitioning=1;var r=function(){this.$element.removeClass("collapsing").addClass("collapse in")[a](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!t.support.transition)return r.call(this);var l=t.camelCase(["scroll",a].join("-"));this.$element.one("bsTransitionEnd",t.proxy(r,this)).emulateTransitionEnd(s.TRANSITION_DURATION)[a](this.$element[0][l])}}}},s.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var e=t.Event("hide.bs.collapse");if(this.$element.trigger(e),!e.isDefaultPrevented()){var i=this.dimension();this.$element[i](this.$element[i]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse in").attr("aria-expanded",!1),this.$trigger.addClass("collapsed").attr("aria-expanded",!1),this.transitioning=1;var n=function(){this.transitioning=0,this.$element.removeClass("collapsing").addClass("collapse").trigger("hidden.bs.collapse")};return t.support.transition?void this.$element[i](0).one("bsTransitionEnd",t.proxy(n,this)).emulateTransitionEnd(s.TRANSITION_DURATION):n.call(this)}}},s.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()},s.prototype.getParent=function(){return t(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(t.proxy(function(i,s){var n=t(s);this.addAriaAndCollapsedClass(e(n),n)},this)).end()},s.prototype.addAriaAndCollapsedClass=function(t,e){var i=t.hasClass("in");t.attr("aria-expanded",i),e.toggleClass("collapsed",!i).attr("aria-expanded",i)};var n=t.fn.collapse;t.fn.collapse=i,t.fn.collapse.Constructor=s,t.fn.collapse.noConflict=function(){return t.fn.collapse=n,this},t(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(s){var n=t(this);n.attr("data-target")||s.preventDefault();var o=e(n),a=o.data("bs.collapse"),r=a?"toggle":n.data();i.call(o,r)})}(jQuery),+function(t){"use strict";function e(i,s){this.$body=t(document.body),this.$scrollElement=t(t(i).is(document.body)?window:i),this.options=t.extend({},e.DEFAULTS,s),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",t.proxy(this.process,this)),this.refresh(),this.process()}function i(i){return this.each(function(){var s=t(this),n=s.data("bs.scrollspy"),o="object"==typeof i&&i;n||s.data("bs.scrollspy",n=new e(this,o)),"string"==typeof i&&n[i]()})}e.VERSION="3.3.7",e.DEFAULTS={offset:10},e.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},e.prototype.refresh=function(){var e=this,i="offset",s=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),t.isWindow(this.$scrollElement[0])||(i="position",s=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var e=t(this),n=e.data("target")||e.attr("href"),o=/^#./.test(n)&&t(n);return o&&o.length&&o.is(":visible")&&[[o[i]().top+s,n]]||null}).sort(function(t,e){return t[0]-e[0]}).each(function(){e.offsets.push(this[0]),e.targets.push(this[1])})},e.prototype.process=function(){var t,e=this.$scrollElement.scrollTop()+this.options.offset,i=this.getScrollHeight(),s=this.options.offset+i-this.$scrollElement.height(),n=this.offsets,o=this.targets,a=this.activeTarget;if(this.scrollHeight!=i&&this.refresh(),e>=s)return a!=(t=o[o.length-1])&&this.activate(t);if(a&&e<n[0])return this.activeTarget=null,this.clear();for(t=n.length;t--;)a!=o[t]&&e>=n[t]&&(void 0===n[t+1]||e<n[t+1])&&this.activate(o[t])},e.prototype.activate=function(e){this.activeTarget=e,this.clear();var i=this.selector+'[data-target="'+e+'"],'+this.selector+'[href="'+e+'"]',s=t(i).parents("li").addClass("active");s.parent(".dropdown-menu").length&&(s=s.closest("li.dropdown").addClass("active")),s.trigger("activate.bs.scrollspy")},e.prototype.clear=function(){t(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var s=t.fn.scrollspy;t.fn.scrollspy=i,t.fn.scrollspy.Constructor=e,t.fn.scrollspy.noConflict=function(){return t.fn.scrollspy=s,this},t(window).on("load.bs.scrollspy.data-api",function(){t('[data-spy="scroll"]').each(function(){var e=t(this);i.call(e,e.data())})})}(jQuery),+function(t){"use strict";function e(){var t=document.createElement("bootstrap"),e={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var i in e)if(void 0!==t.style[i])return{end:e[i]};return!1}t.fn.emulateTransitionEnd=function(e){var i=!1,s=this;t(this).one("bsTransitionEnd",function(){i=!0});var n=function(){i||t(s).trigger(t.support.transition.end)};return setTimeout(n,e),this},t(function(){t.support.transition=e(),t.support.transition&&(t.event.special.bsTransitionEnd={bindType:t.support.transition.end,delegateType:t.support.transition.end,handle:function(e){return t(e.target).is(this)?e.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery);</script>
 	<!-- Header CSS (first screen styles from header.min.css) - inserted in the build of the project -->
-	<style>::-webkit-input-placeholder{color:#666;opacity:1}:-moz-placeholder{color:#666;opacity:1}::-moz-placeholder{color:#666;opacity:1}:-ms-input-placeholder{color:#666;opacity:1}body input:focus:required:invalid,body textarea:focus:required:invalid{color:#666}body input:required:valid,body textarea:required:valid{color:#666}body{font-size:14px;min-width:320px;position:relative;line-height:1.428571429;font-family:roboto,sans-serif;overflow-x:hidden}.sec-header .navbar-inverse .navbar-brand{color:#fff;font-size:1.6em;font-family:Bowlby-One,Helvetica,sans-serif;font-weight:900}.sec-header .navbar-inverse .navbar-nav{color:#fff}.sec-header .carousel img{width:100%}.sec-header .carousel .carousel-caption h2{font-size:3em}.sec-header .carousel .carousel-caption p{font-size:2.1em;font-family:Roboto,Helvetica,sans-serif;font-weight:400;padding-bottom:7em}.sec-header .carousel .carousel-indicators li{-webkit-border-radius:0;border-radius:0;height:20px;width:20px;margin-right:2em}</style>
+	<style>::-webkit-input-placeholder{color:#666;opacity:1}:-moz-placeholder{color:#666;opacity:1}::-moz-placeholder{color:#666;opacity:1}:-ms-input-placeholder{color:#666;opacity:1}body input:focus:required:invalid,body textarea:focus:required:invalid{color:#666}body input:required:valid,body textarea:required:valid{color:#666}body{font-size:14px;min-width:320px;position:relative;line-height:1.428571429;font-family:roboto,sans-serif;overflow-x:hidden}.sec-header .navbar-inverse .navbar-brand{color:#fff;font-size:1.6em;font-family:Merriweather-Sans,Helvetica,sans-serif;font-weight:900}@media only screen and (max-width:992px){.sec-header .navbar-inverse .navbar-brand{font-size:1.2em}}@media only screen and (max-width:480px){.sec-header .navbar-inverse .navbar-brand{font-size:.95em}}.sec-header .navbar-inverse .navbar-nav{color:#fff}.sec-header .navbar-inverse .navbar-nav a{font-size:1.1em;font-family:Roboto,Helvetica,sans-serif;font-weight:400}@media only screen and (max-width:992px){.sec-header .navbar-inverse .navbar-nav a{font-size:1em}}.sec-header .carousel{margin-top:3.6em}.sec-header .carousel img{width:100%}.sec-header .carousel .carousel-caption h2{font-size:2em}@media only screen and (max-width:768px){.sec-header .carousel .carousel-caption h2{font-size:1.4em}}.sec-header .carousel .carousel-caption p{font-size:1.8em;font-family:Roboto,Helvetica,sans-serif;font-weight:400;padding-bottom:6em}@media only screen and (max-width:1200px){.sec-header .carousel .carousel-caption p{font-size:1.6em;padding-bottom:4em}}@media only screen and (max-width:992px){.sec-header .carousel .carousel-caption p{font-size:1em;padding-bottom:4em}}@media only screen and (max-width:768px){.sec-header .carousel .carousel-caption p{visibility:hidden;padding-bottom:0}}.sec-header .carousel .carousel-indicators li{-webkit-border-radius:0;border-radius:0;height:20px;width:20px;margin-right:2em}@media only screen and (max-width:480px){.sec-header .carousel .carousel-indicators li{height:14px;width:14px;margin-right:1em}}</style>
 	<!-- Load CSS, CSS Localstorage & WebFonts Main Function -->
 	<script>!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);</script>
 	<!-- Load Fonts CSS Start -->
@@ -60,14 +60,12 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-           <a href="#" class="navbar-brand text-nowrap text-uppercase">gordon ramsey restaurant</a> 
+           <a href="#" class="navbar-brand text-nowrap text-uppercase">Will anderson restaurant</a> 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+             </button>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
@@ -96,7 +94,7 @@
           <img src="img/carousel/carousel1.jpg" alt="">
           <div class="carousel-caption">
             <h2 class="text-uppercase">Restaurants & Bars</h2>
-            <p>Gift experiences at Gordon Ramsay restaurants across London</p>
+            <p>Gift experiences at Will Anderson restaurants across City</p>
           </div>
         </div>
         <div class="item">
@@ -135,91 +133,91 @@
     <!--Header Nav END-->
   </header><!--Header END-->
   <!--Restaurant-->
-  <div id="restaurant" class="container sec-restaurant slideanim">
+  <div id="restaurant" class="container sec-restaurant">
     <h2 class="text-center text-uppercase">Restaurant</h2>
     <div class="row">
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Bread Street Kitchen</h3>
-        <img src="img\restaurant\Bread Street Kitchen London.jpg" alt="" class="img-responsive">
-        <p>10 Bread Street<br>London<br>EC4M 9AJ</p>
+        <h3 class="text-uppercase">Paradise</h3>
+        <img src="img\restaurant\Paradise.jpg" alt="" class="img-responsive">
+        <p>10 Bread Street<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Heddon Street Kitchen</h3>
-        <img src="img\restaurant\Heddon Street Kitchen.jpg" alt="" class="img-responsive">
-        <p>3-9 Heddon Street<br>London<br>W1B 4BE</p>
+        <h3 class="text-uppercase">Bread and Butter</h3>
+        <img src="img\restaurant\Bread-and-Butter.jpg" alt="" class="img-responsive">
+        <p>3-9 Heddon Street<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Maze Grill Mayfair</h3>
-        <img src="img\restaurant\Maze Grill Mayfair.jpg" alt="" class="img-responsive">
-        <p>10 - 13 Grosvenor Square<br>London<br>W1K 6JP</p>
-        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4">
-        <h3 class="text-uppercase">Pétrus</h3>
-        <img src="img\restaurant\Petrus.jpg" alt="" class="img-responsive">
-        <p>1 Kinnerton Street<br>London<br>SW1X 8EA</p>
-        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
-      </div>
-      <div class="col-sm-4">
-        <h3 class="text-uppercase">Savoy Grill</h3>
-        <img src="img\restaurant\Savoy Grill.jpg" alt="" class="img-responsive">
-        <p>Savoy Hotel<br>London<br>WC2R 0EU</p>
-        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
-      </div>
-      <div class="col-sm-4">
-        <h3 class="text-uppercase">The Narrow</h3>
-        <img src="img\restaurant\The Narrow.jpg" alt="" class="img-responsive">
-        <p>44 Narrow Street<br>London<br>E14 8DP</p>
+        <h3 class="text-uppercase">Master Grill Kitchen</h3>
+        <img src="img\restaurant\Master-Grill-Kitchen.jpg" alt="" class="img-responsive">
+        <p>10 - 13 Grosvenor Square<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Union Street Café </h3>
-        <img src="img\restaurant\Union Street Cafe.jpg" alt="" class="img-responsive">
-        <p>47-51 Great Suffolk Street<br>London<br>SE1 0BS</p>
+        <h3 class="text-uppercase">Terrase</h3>
+        <img src="img\restaurant\Terrase.jpg" alt="" class="img-responsive">
+        <p>1 Kinnerton Street<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Maze Grill Royal Hospital Road</h3>
-        <img src="img\restaurant\Maze Grill Royal Hospital Road.jpg" alt="" class="img-responsive">
-        <p>79 Royal Hospital Road<br>London<br>SW3 4HN</p>
+        <h3 class="text-uppercase">Green Garden</h3>
+        <img src="img\restaurant\Green-Garden.jpg" alt="" class="img-responsive">
+        <p>Savoy Hotel<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">London House</h3>
-        <img src="img\restaurant\London House.jpg" alt="" class="img-responsive">
-        <p>7-9 Battersea Square<br>London<br>SW11 3RA</p>
+        <h3 class="text-uppercase">Parslay</h3>
+        <img src="img\restaurant\Parslay.jpg" alt="" class="img-responsive">
+        <p>44 Narrow Street<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-4">
-        <h3 class="text-uppercase">York & Albany</h3>
-        <img src="img\restaurant\York & Albany.jpg" alt="" class="img-responsive">
-        <p>127-129 Parkway<br>London<br>NW1 7PS</p>
+        <h3 class="text-uppercase">New York Café</h3>
+        <img src="img\restaurant\New-York-Café.jpg" alt="" class="img-responsive">
+        <p>47-51 Great Suffolk Street<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Maze</h3>
-        <img src="img\restaurant\Maze.jpg" alt="" class="img-responsive">
-        <p>10-13 Grosvenor Square<br>London<br>W1K 6JP</p>
+        <h3 class="text-uppercase">Griil Market</h3>
+        <img src="img\restaurant\Griil-Market.jpg" alt="" class="img-responsive">
+        <p>79 Royal Hospital Road<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
       <div class="col-sm-4">
-        <h3 class="text-uppercase">Maze Grill Park Walk</h3>
-        <img src="img\restaurant\Maze Grill Park Walk.jpg" alt="" class="img-responsive">
-        <p>11 Park Walk<br>London<br>SW10 0AJ</p>
+        <h3 class="text-uppercase">West Street Kitchen</h3>
+        <img src="img\restaurant\West-Street-Kitchen.jpg" alt="" class="img-responsive">
+        <p>7-9 Battersea Square<br>City</p>
+        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <h3 class="text-uppercase">Quiet Place</h3>
+        <img src="img\restaurant\Quiet-Place.jpg" alt="" class="img-responsive">
+        <p>127-129 Parkway<br>City</p>
+        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
+      </div>
+      <div class="col-sm-4">
+        <h3 class="text-uppercase">Gastronomy</h3>
+        <img src="img\restaurant\Gastronomy.jpg" alt="" class="img-responsive">
+        <p>10-13 Grosvenor Square<br>City</p>
+        <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
+      </div>
+      <div class="col-sm-4">
+        <h3 class="text-uppercase">Road Street Kitchen</h3>
+        <img src="img\restaurant\Road-Street-Kitchen.jpg" alt="" class="img-responsive">
+        <p>11 Park Walk<br>City</p>
         <button class="btn">Make a Booking<span class="glyphicon glyphicon-ok"></span></button>
       </div>
     </div>
   </div><!--Restaurant END-->
   <!--Recipes-->
-  <div id="recipes" class="container sec-recipes slideanim">
+  <div id="recipes" class="container sec-recipes">
     <h2 class="text-center text-uppercase">Recipes</h2>
     <div class="row">
       <div class="col-sm-4">
@@ -291,7 +289,7 @@
     </div>
   </div><!--Recipes END-->
   <!--Team -->
-  <div id="team" class="container sec-team slideanim">
+  <div id="team" class="container sec-team">
     <h2 class="text-center text-uppercase">Our Team</h2>
     <div class="row">
       <div class="col-sm-3">
@@ -299,7 +297,7 @@
           <h3>Chef de Cuisine</h3>
           <h4>Matt Abé</h4>
           <img src="img\team\Matt-abe.jpg" alt="" class="img-responsive">
-          <p>Matt Abé has spent the past ten years rising through the ranks of the Gordon Ramsay Group in London, where he now runs the kitchen as Chef de Cuisine at the three Michelin-starred Restaurant Gordon Ramsay. </p>
+          <p>Matt Abé has spent the past ten years rising through the ranks of the Will Anderson Group in City, where he now runs the kitchen as Chef de Cuisine at the three Michelin-starred Restaurant Will Anderson. </p>
         </div>
       </div>
       <div class="col-sm-3">
@@ -307,7 +305,7 @@
           <h3>Restaurant Manager</h3>
           <h4>Enrico Baronetto</h4>
           <img src="img\team\Enrico Baronetto.jpg" alt="" class="img-responsive">
-          <p>Enrico Baronetto, Restaurant Manager at three Michelin-starred Restaurant Gordon Ramsay brings a wealth of international experience from Europe’s finest establishments to the heart of London.</p>
+          <p>Enrico Baronetto, Restaurant Manager at three Michelin-starred Restaurant Will Anderson brings a wealth of international experience from Europe’s finest establishments to the heart of City.</p>
         </div>
       </div>
       <div class="col-sm-3">
@@ -315,7 +313,7 @@
           <h3>Maitre d'</h3>
           <h4>Jean-Claude Breton</h4>
           <img src="img\team\Jean-Claude.jpg" alt="" class="img-responsive">
-          <p>Maitre d' Jean-Claude Breton initially met Gordon in France and joined him for the opening of Aubergine in London in 1993. Their relationship grew over the years and he is now absorbed in ensuring the utmost care and service for guests dining at Restaurant Gordon Ramsay.</p>
+          <p>Maitre d' Jean-Claude Breton initially met Gordon in France and joined him for the opening of Aubergine in City in 1993. Their relationship grew over the years and he is now absorbed in ensuring the utmost care and service for guests dining at Restaurant Will Anderson.</p>
         </div>
       </div>
       <div class="col-sm-3">
@@ -329,7 +327,7 @@
     </div>
   </div><!--Team END-->
   <!--Gallery-->
-  <div id="gallery" class="container-fluid sec-gallery slideanim">
+  <div id="gallery" class="container-fluid sec-gallery">
     <h2 class="text-center text-uppercase">Gallery</h2>
     <div class="container">
       <div class="row text-center">
